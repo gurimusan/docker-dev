@@ -56,20 +56,21 @@ RUN  git clone https://github.com/neovim/neovim.git && \
 RUN pip install neovim
 RUN pip3 install neovim
 
+WORKDIR /home/gurimusan
+
 COPY init.vim       /home/gurimusan/.config/nvim/init.vim
 COPY dein.toml      /home/gurimusan/.config/dein/dein.toml
 COPY dein_lazy.toml /home/gurimusan/.config/dein/dein_lazy.toml
 
-RUN chown gurimusan:gurimusan /home/gurimusan/.config/nvim/init.vim
-RUN chown gurimusan:gurimusan /home/gurimusan/.config/dein/dein.toml
-RUN chown gurimusan:gurimusan /home/gurimusan/.config/dein/dein_lazy.toml
+RUN curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh \
+    && chmod +x ./installer.sh \
+    && sh ./installer.sh /home/gurimusan/.config/deinrepo \
+    && rm -f installer.sh
+
+RUN chown -R gurimusan:gurimusan /home/gurimusan/.config
 
 USER gurimusan
 WORKDIR /home/gurimusan
-
-RUN curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
-RUN chmod +x ./installer.sh
-RUN sh ./installer.sh /home/gurimusan/.config/deinrepo
 
 # RUN nvim +":silent! call dein#install()" +qall
 RUN nvim +PlugInstall +qall
