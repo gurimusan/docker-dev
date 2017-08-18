@@ -59,16 +59,16 @@ autoload -U colors
 colors
 case ${UID} in
 0)
-  PROMPT="%B%{${fg[red]}%}%/#%{${reset_color}%}%b "
-  PROMPT2="%B%{${fg[red]}%}%_#%{${reset_color}%}%b "
-  SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
+  PROMPT="(docker)%B%{${fg[cyan]}%}%/#%{${reset_color}%}%b "
+  PROMPT2="%B%{${fg[cyan]}%}%_#%{${reset_color}%}%b "
+  SPROMPT="%B%{${fg[cyan]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
   [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
     PROMPT="%{${fg[white]}%}${HOST%%.*} ${PROMPT}"
   ;;
 *)
-  PROMPT="%{${fg[red]}%}%/%%%{${reset_color}%} "
-  PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-  SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+  PROMPT="(docker)%{${fg[cyan]}%}%/%%%{${reset_color}%} "
+  PROMPT2="%{${fg[cyan]}%}%_%%%{${reset_color}%} "
+  SPROMPT="%{${fg[cyan]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
   [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
     PROMPT="%{${fg[white]}%}${HOST%%.*} ${PROMPT}"
   ;;
