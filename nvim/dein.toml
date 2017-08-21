@@ -5,9 +5,6 @@ repo = 'Shougo/dein.vim'
 repo = 'tomasr/molokai'
 
 [[plugins]]
-repo = 'scrooloose/syntastic'
-
-[[plugins]]
 repo = 'godlygeek/tabular'
 
 [[plugins]]
@@ -15,6 +12,13 @@ repo = 'vim-scripts/sudo.vim'
 
 [[plugins]]
 repo = 'vim-scripts/gtags.vim'
+hook_add = '''
+map <C-g> :Gtags
+map <C-h> :Gtags -f %<CR>
+map <C-j> :GtagsCursor<CR>
+map <C-n> :cn<CR>
+map <C-p> :cp<CR>
+'''
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'

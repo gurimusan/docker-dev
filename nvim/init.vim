@@ -211,21 +211,6 @@ inoremap <silent> <C-[> <ESC>:call ImInActivate()<CR>
 inoremap <C-v> <Esc>"*pa
 cnoremap <C-v> <C-R>*
 
-" ----------
-" Syntastic
-" ----------
-let g:syntastic_mode_map = { 'mode': 'active',
-      \ 'active_filetypes': [],
-      \ 'passive_filetypes': ['html',  'javascript'] }
-let g:syntastic_auto_loc_list = 1
-" let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_javascript_checkers = ['jsxhint']
-let g:syntastic_python_checkers = ['pyflakes', 'pep8']
-let g:syntastic_php_checkers=['php', 'phpcs']
-let g:syntastic_disabled_filetypes=['scss']
-let g:syntastic_go_checkers = ['golint', 'errcheck', 'go']
-let g:syntastic_javascript_checkers=['eslint']
-
 " ---------
 " Encoding
 " ---------
@@ -247,12 +232,3 @@ function! s:vimrc_local(loc)
     source `=i`
   endfor
 endfunction
-
-" ---------
-" gtags
-" ---------
-map <C-g> :Gtags
-map <C-h> :Gtags -f %<CR>
-map <C-j> :GtagsCursor<CR>
-map <C-n> :cn<CR>
-map <C-p> :cp<CR>
