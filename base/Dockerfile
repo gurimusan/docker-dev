@@ -10,6 +10,8 @@ RUN apk add --update \
     openssh \
     tmux \
     xclip \
+    sudo \
+    less \
     curl \
     && rm -rf \
     /var/cache/* \

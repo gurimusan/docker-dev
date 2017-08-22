@@ -52,7 +52,7 @@ endif
 " Mouse
 " ------
 if has('unnamedplus')
-  set clipboard& clipboard+=unnamedplus
+  set clipboard& clipboard+=unnamedplus,unnamed
 else
   set clipboard& clipboard+=unnamed
 endif
