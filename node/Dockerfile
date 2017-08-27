@@ -1,0 +1,23 @@
+FROM gurimusan/nvim
+
+USER root
+
+RUN apk add --update \
+    nodejs \
+    yarn \
+    && rm -rf \
+    /var/cache/* \
+    /var/log/* \
+    /var/tmp/* \
+    && mkdir /var/cache/apk \
+    && yarn global add eslint
+
+USER gurimusan
+WORKDIR /home/gurimusan
+
+COPY dein.toml /tmp/dein.toml
+RUN cat /tmp/dein.toml >> /home/gurimusan/.config/dein/dein.toml
+RUN nvim +":silent! call dein#install()" +qall
+RUN nvim +"UpdateRemotePlugins" +qall
+
+CMD ["/bin/zsh"]
