@@ -28,6 +28,7 @@ syntax enable
 filetype plugin on
 filetype indent on
 let mapleader = "\<Space>"      " キーマップリーダー
+set sh=zsh                      " zsh
 set scrolloff=5                 " スクロール時の余白
 set textwidth=0                 " 1行に長い文章を書いても自動で折り返ししない
 set nobackup                    " バックアップを作成しない
@@ -232,3 +233,18 @@ function! s:vimrc_local(loc)
     source `=i`
   endfor
 endfunction
+
+" ---------
+" AutoMkdir
+" ---------
+augroup vimrc-auto-mkdir  " {{{
+  autocmd!
+  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  function! s:auto_mkdir(dir, force)  " {{{
+    if !isdirectory(a:dir) && (a:force ||
+    \    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction  " }}}
+augroup END  " }}}
+
