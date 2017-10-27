@@ -5,10 +5,7 @@ USER root
 RUN apk add --update \
     nodejs \
     yarn \
-    && rm -rf \
-    /var/cache/* \
-    /var/log/* \
-    /var/tmp/* \
+    && rm -rf /var/cache/* \
     && mkdir /var/cache/apk \
     && yarn global add eslint
 

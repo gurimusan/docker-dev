@@ -14,10 +14,7 @@ RUN apk add --update \
     py-pip \
     py-setuptools \
     ctags \
-    && rm -rf \
-    /var/cache/* \
-    /var/log/* \
-    /var/tmp/* \
+    && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
 
 ENV CMAKE_EXTRA_FLAGS=-DENABLE_JEMALLOC=OFF

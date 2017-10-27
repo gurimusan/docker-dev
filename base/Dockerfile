@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:edge
 
 MAINTAINER gurimusan <gurimusan@gmail.com>
 
@@ -13,10 +13,7 @@ RUN apk add --update \
     sudo \
     less \
     curl \
-    && rm -rf \
-    /var/cache/* \
-    /var/log/* \
-    /var/tmp/* \
+    && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
 
 RUN addgroup -g 1000 -S gurimusan \
@@ -46,10 +43,7 @@ RUN apk add --update --virtual build-deps \
     && /go/bin/glide install \
     && go build -o /usr/local/bin/peco cmd/peco/peco.go \
     && apk del build-deps \
-    && rm -rf \
-    /var/cache/* \
-    /var/log/* \
-    /var/tmp/* \
+    && rm -rf /var/cache/* \
     && mkdir /var/cache/apk \
     && rm -fr /go
 
