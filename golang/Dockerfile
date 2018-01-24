@@ -1,0 +1,78 @@
+FROM gurimusan/nvim
+
+USER root
+
+RUN apk add --no-cache ca-certificates
+
+ENV GOLANG_VERSION 1.9.2
+
+# https://golang.org/issue/14851 (Go 1.8 & 1.7)
+# https://golang.org/issue/17847 (Go 1.7)
+COPY *.patch /go-alpine-patches/
+
+RUN set -eux; \
+    apk add --no-cache --virtual .build-deps \
+    bash \
+    gcc \
+    musl-dev \
+    openssl \
+    go \
+    ; \
+    export \
+# set GOROOT_BOOTSTRAP such that we can actually build Go
+    GOROOT_BOOTSTRAP="$(go env GOROOT)" \
+# ... and set "cross-building" related vars to the installed system's values so that we create a build targeting the proper arch
+ # (for example, if our build host is GOARCH=amd64, but our build env/image is GOARCH=386, our build needs GOARCH=386)
+    GOOS="$(go env GOOS)" \
+    GOARCH="$(go env GOARCH)" \
+    GO386="$(go env GO386)" \
+    GOARM="$(go env GOARM)" \
+    GOHOSTOS="$(go env GOHOSTOS)" \
+    GOHOSTARCH="$(go env GOHOSTARCH)" \
+    ; \
+    \
+    wget -O go.tgz "https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz"; \
+    echo '665f184bf8ac89986cfd5a4460736976f60b57df6b320ad71ad4cef53bb143dc *go.tgz' | sha256sum -c -; \
+    tar -C /usr/local -xzf go.tgz; \
+    rm go.tgz; \
+    \
+    cd /usr/local/go/src; \
+    for p in /go-alpine-patches/*.patch; do \
+        [ -f "$p" ] || continue; \
+        patch -p2 -i "$p"; \
+    done; \
+    ./make.bash; \
+    \
+    rm -rf /go-alpine-patches; \
+    apk del .build-deps; \
+    \
+    export PATH="/usr/local/go/bin:$PATH"; \
+    go version
+
+COPY go-wrapper /usr/local/bin/
+
+USER gurimusan
+WORKDIR /home/gurimusan
+
+ENV GOPATH /home/gurimusan/go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+WORKDIR $GOPATH
+
+RUN go get -u github.com/golang/lint/golint
+RUN go get golang.org/x/tools/cmd/goimports
+RUN go get github.com/kisielk/errcheck
+RUN go get golang.org/x/tools/cmd/gorename
+RUN go get github.com/golang/lint/golint
+RUN go get golang.org/x/tools/cmd/goimports
+RUN go get github.com/Songmu/make2help/cmd/make2help
+RUN go get -u github.com/golang/dep/cmd/dep
+
+COPY dein.toml /tmp/dein.toml
+RUN cat /tmp/dein.toml >> /home/gurimusan/.config/dein/dein.toml
+RUN nvim +":silent! call dein#install()" +qall
+RUN nvim +"UpdateRemotePlugins" +qall
+RUN nvim +":silent! GoUpdateBinaries" +qall
+
+CMD ["/bin/zsh"]
