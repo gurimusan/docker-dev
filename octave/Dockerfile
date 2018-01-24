@@ -4,7 +4,7 @@ USER root
 
 RUN apk update \
     && apk --no-cache add gnuplot fontconfig \
-    && apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted octave font-ipa \
+    && apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted octave font-ipa graphicsmagick graphicsmagick-dev \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
 
