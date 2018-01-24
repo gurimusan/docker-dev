@@ -3,8 +3,12 @@ FROM alpine:edge
 MAINTAINER gurimusan <gurimusan@gmail.com>
 
 ENV LANG ja_JP.UTF-8
+ENV TIMEZONE Asia/Tokyo
+
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories
 
 RUN apk add --update \
+    file \
     git \
     zsh \
     openssh \
