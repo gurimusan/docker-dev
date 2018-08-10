@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.7
 
 MAINTAINER gurimusan <gurimusan@gmail.com>
 
@@ -10,6 +10,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repo
 RUN apk add --update \
     file \
     git \
+    git-subtree \
     zsh \
     openssh \
     tmux \

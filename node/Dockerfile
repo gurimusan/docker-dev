@@ -7,7 +7,7 @@ RUN apk add --update \
     yarn \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk \
-    && yarn global add eslint
+    && yarn global add eslint@v4.19.0
 
 USER gurimusan
 WORKDIR /home/gurimusan

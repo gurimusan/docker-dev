@@ -75,4 +75,6 @@ RUN nvim +":silent! call dein#install()" +qall
 RUN nvim +"UpdateRemotePlugins" +qall
 RUN nvim +":silent! GoUpdateBinaries" +qall
 
+RUN mkdir /home/gurimusan/bin && cd /home/gurimusan/bin && git clone https://github.com/direnv/direnv && cd direnv && make install
+
 CMD ["/bin/zsh"]
